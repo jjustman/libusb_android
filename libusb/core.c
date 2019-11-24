@@ -2234,6 +2234,9 @@ static enum libusb_log_level get_env_debug_level(void)
 	} else {
 		level = LIBUSB_LOG_LEVEL_NONE;
 	}
+
+	//jjustman-2019-11-24 - hack
+	level = LIBUSB_LOG_LEVEL_DEBUG;
 	return level;
 }
 #endif

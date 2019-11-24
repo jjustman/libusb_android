@@ -474,6 +474,7 @@ static int op_init(struct libusb_context *ctx)
 
 	usbi_dbg("max iso packet length is (likely) %u bytes", max_iso_packet_len);
 
+#ifndef __ANDROID__
 	if (-1 == sysfs_has_descriptors) {
 		/* sysfs descriptors has all descriptors since Linux 2.6.26 */
 		sysfs_has_descriptors = kernel_version_ge(&kversion,2,6,26);
@@ -483,7 +484,10 @@ static int op_init(struct libusb_context *ctx)
 		/* sysfs has busnum since Linux 2.6.22 */
 		sysfs_can_relate_devices = kernel_version_ge(&kversion,2,6,22);
 	}
-
+#else
+	sysfs_has_descriptors = 0;
+	sysfs_can_relate_devices = 0;
+#endif
 	if (sysfs_can_relate_devices || sysfs_has_descriptors) {
 		r = stat(SYSFS_DEVICE_PATH, &statbuf);
 		if (r != 0 || !S_ISDIR(statbuf.st_mode)) {
@@ -1280,8 +1284,12 @@ static int usbfs_get_device_list(struct libusb_context *ctx)
 	int r = 0;
 
 	if (!buses) {
-		usbi_err(ctx, "opendir buses failed errno=%d", errno);
+		usbi_err(ctx, "opendir buses failed errno=%d, trying to read path: %s", errno, usbfs_path);
+#ifdef __ANDROID__
+		return LIBUSB_SUCCESS;
+#else
 		return LIBUSB_ERROR_IO;
+#endif
 	}
 
 	while ((entry = readdir(buses))) {
