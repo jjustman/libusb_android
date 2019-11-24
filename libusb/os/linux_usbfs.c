@@ -39,7 +39,7 @@
 #include <sys/utsname.h>
 #include <time.h>
 
-#include "libusbi.h"
+#include <libusbi.h>
 #include "linux_usbfs.h"
 
 /* sysfs vs usbfs:
