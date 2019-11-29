@@ -21,7 +21,7 @@
 /* #undef ENABLE_DEBUG_LOGGING */
 
 /* Message logging */
-#define ENABLE_LOGGING 1
+//#define ENABLE_LOGGING 1
 
 //#define ENABLE_DEBUG_LOGGING 1
 
