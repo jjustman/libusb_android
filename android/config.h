@@ -75,3 +75,5 @@
 
 /* Define to 1 if you have the <sys/socket.h> header file. */
 #define HAVE_SYS_SOCKET_H 1
+
+#define USBI_TIMERFD_AVAILABLE 1
