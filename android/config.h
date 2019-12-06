@@ -52,6 +52,7 @@
 /* Define to 1 if you have the <poll.h> header file. */
 #define HAVE_POLL_H 1
 
+
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #define HAVE_SYS_STAT_H 1
 
@@ -76,4 +77,4 @@
 /* Define to 1 if you have the <sys/socket.h> header file. */
 #define HAVE_SYS_SOCKET_H 1
 
-#define USBI_TIMERFD_AVAILABLE 1
+// #define USBI_TIMERFD_AVAILABLE 1
