@@ -52,7 +52,7 @@ static int default_context_refcnt = 0;
 static usbi_mutex_static_t default_context_lock = USBI_MUTEX_INITIALIZER;
 static struct timespec timestamp_origin = { 0, 0 };
 #ifndef USE_SYSTEM_LOGGING_FACILITY
-static libusb_log_cb log_handler = NULL;
+    static libusb_log_cb log_handler = NULL;
 #endif
 
 usbi_mutex_static_t active_contexts_lock = USBI_MUTEX_INITIALIZER;
