@@ -510,11 +510,18 @@ static int op_init(struct libusb_context *ctx)
 		r = linux_start_event_monitor();
 	}
 	if (r == LIBUSB_SUCCESS) {
+
+#ifdef __LIBUSB_SCAN_DEV_BUS_USB__
 		r = linux_scan_devices(ctx);
 		if (r == LIBUSB_SUCCESS)
 			init_count++;
 		else if (init_count == 0)
 			linux_stop_event_monitor();
+
+#else
+		init_count++;
+#endif
+
 	} else
 		usbi_err(ctx, "error starting hotplug event monitor");
 	usbi_mutex_static_unlock(&linux_hotplug_startstop_lock);
