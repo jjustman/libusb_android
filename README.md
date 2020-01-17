@@ -1,5 +1,10 @@
 # libusb
 
+jjustman-2020-01-17 - patches for android with selinux permissive FD access to /dev block devices. Also disables hotplug support (crash on Nvidia Shield when enumerating /dev/usb fd's) as Android Binder broadcast intent for android.hardware.usb.action.USB_DEVICE_ATTACHED will handle this for us
+
+---
+
+
 [![Build Status](https://travis-ci.org/libusb/libusb.svg?branch=master)](https://travis-ci.org/libusb/libusb)
 [![Build status](https://ci.appveyor.com/api/projects/status/xvrfam94jii4a6lw?svg=true)](https://ci.appveyor.com/project/LudovicRousseau/libusb)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/2180/badge.svg)](https://scan.coverity.com/projects/libusb-libusb)
