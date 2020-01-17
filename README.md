@@ -1,6 +1,8 @@
 # libusb
 
-jjustman-2020-01-17 - patches for android with selinux permissive FD access to /dev block devices. Also disables hotplug support (crash on Nvidia Shield when enumerating /dev/usb fd's) as Android Binder broadcast intent for android.hardware.usb.action.USB_DEVICE_ATTACHED will handle this for us
+jjustman-2020-01-17 - patches for android with selinux permissive FD access to /dev block devices. Also disables hotplug support (crash on Nvidia Shield when enumerating /dev/usb fd's) as Android Binder broadcast intent for android.hardware.usb.action.USB_DEVICE_ATTACHED will be dispatched if present in your AndroidManifest.xml for action intent filters.
+
+See also libatsc3 - https://github.com/jjustman/libatsc3
 
 ---
 
