@@ -2779,6 +2779,7 @@ static int op_handle_events(struct libusb_context *ctx,
 	int r;
 	unsigned int i = 0;
 
+	//printf("libusb/linux_usbfs.c: op_handle_events, ctx: %p");
 	usbi_mutex_lock(&ctx->open_devs_lock);
 	for (i = 0; i < nfds && num_ready > 0; i++) {
 		struct pollfd *pollfd = &fds[i];

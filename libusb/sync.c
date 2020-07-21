@@ -278,6 +278,7 @@ int API_EXPORTED libusb_bulk_transfer(struct libusb_device_handle *dev_handle,
 	unsigned char endpoint, unsigned char *data, int length, int *transferred,
 	unsigned int timeout)
 {
+    //printf("libusb_bulk_transfer for dev_handle: %p", dev_handle);
 	return do_sync_bulk_transfer(dev_handle, endpoint, data, length,
 		transferred, timeout, LIBUSB_TRANSFER_TYPE_BULK);
 }
