@@ -2292,7 +2292,9 @@ int API_EXPORTED libusb_init(libusb_context **context)
 		usbi_default_context = ctx;
 		default_context_refcnt++;
 		usbi_dbg("created default context");
-	}
+        printf("libusb_init: creating default context: %p", usbi_default_context);
+
+    }
 
 	usbi_dbg("libusb v%u.%u.%u.%u%s", libusb_version_internal.major, libusb_version_internal.minor,
 		libusb_version_internal.micro, libusb_version_internal.nano, libusb_version_internal.rc);
@@ -2336,6 +2338,8 @@ err_backend_exit:
 err_free_ctx:
 	if (ctx == usbi_default_context) {
 		usbi_default_context = NULL;
+		printf("%s:%d: usbi_default_context is now NULL!", __FILE__, __LINE__);
+
 		default_context_refcnt--;
 	}
 
@@ -2373,6 +2377,10 @@ void API_EXPORTED libusb_exit(struct libusb_context *ctx)
 
 	usbi_dbg("");
 	USBI_GET_CONTEXT(ctx);
+	if(!ctx || !usbi_default_context) {
+	    printf("libusb_exit: warning, ctx or usbi_default_context is null!");
+	    return;
+	}
 
 	/* if working with default context, only actually do the deinitialization
 	 * if we're the last user */
@@ -2384,13 +2392,15 @@ void API_EXPORTED libusb_exit(struct libusb_context *ctx)
 			return;
 		}
 		usbi_dbg("destroying default context");
+        printf("%s:%d: destroying default context, usbi_default_context is now NULL!", __FILE__, __LINE__);
 
-		/*
-		 * Setting this flag without unlocking the default context, as
-		 * we are actually destroying the default context.
-		 * usbi_default_context is not set to NULL yet, as all activities
-		 * would only stop after usbi_backend->exit() returns.
-		 */
+
+        /*
+         * Setting this flag without unlocking the default context, as
+         * we are actually destroying the default context.
+         * usbi_default_context is not set to NULL yet, as all activities
+         * would only stop after usbi_backend->exit() returns.
+         */
 		destroying_default_context = 1;
 	} else {
 		// Unlock default context, as we're not modifying it.
@@ -2450,7 +2460,9 @@ void API_EXPORTED libusb_exit(struct libusb_context *ctx)
 
 	if (destroying_default_context) {
 		usbi_default_context = NULL;
-		usbi_mutex_static_unlock(&default_context_lock);
+        printf("%s:%d: destroying default context, usbi_default_context is now NULL!", __FILE__, __LINE__);
+
+        usbi_mutex_static_unlock(&default_context_lock);
 	}
 }
 
