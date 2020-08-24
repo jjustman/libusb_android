@@ -2395,11 +2395,18 @@ void API_EXPORTED libusb_exit(struct libusb_context *ctx)
 	} else {
 		// Unlock default context, as we're not modifying it.
 		usbi_mutex_static_unlock(&default_context_lock);
-  }
+	}
 
 	usbi_mutex_static_lock(&active_contexts_lock);
-	list_del (&ctx->list);
+
+	//jjustman-2020-08-23 - check for null ref
+	if(ctx != NULL) {
+		list_del (&ctx->list);
+	}
 	usbi_mutex_static_unlock(&active_contexts_lock);
+
+	//jjustman-2020-08-23- no hotplug support, disable this check...
+#ifndef __ANDROID__
 
 	if (libusb_has_capability(LIBUSB_CAP_HAS_HOTPLUG)) {
 		usbi_hotplug_deregister(ctx, 1);
@@ -2423,6 +2430,7 @@ void API_EXPORTED libusb_exit(struct libusb_context *ctx)
 		}
 		usbi_mutex_unlock(&ctx->usb_devs_lock);
 	}
+#endif
 
 	/* a few sanity checks. don't bother with locking because unless
 	 * there is an application bug, nobody will be accessing these. */
